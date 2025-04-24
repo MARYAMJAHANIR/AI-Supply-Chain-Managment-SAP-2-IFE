@@ -1,19 +1,24 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10
-
-# Set the working directory inside the container
+ # stage1 as builder
+FROM node:lts-alpine as builder
 WORKDIR /app
-
-# Copy the requirements.txt file (if you have one) and install any dependencies
-# In this case, you'll install FastAPI and Uvicorn to run the app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the current directory contents into the container at /app
+# Copy the package.json and install dependencies
+COPY package*.json ./
+RUN npm install
+# Copy rest of the files
 COPY . .
+# Build the project
+RUN npm run build
 
-# Expose the port that FastAPI will be running on (default is 8000)
-EXPOSE 8000
 
-# Command to run the FastAPI app using Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+FROM nginx:alpine as production-build
+RUN addgroup -S vite && adduser -S vite -G vite
+RUN mkdir -p /var/cache/nginx/ /var/run/nginx \
+    && chown -R vite:vite /var/cache/nginx /var/run/nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+# Copy from the stage 1
+COPY --chown=vite:vite --from=builder /app/dist /workspace/build
+EXPOSE 3000
+USER vite
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

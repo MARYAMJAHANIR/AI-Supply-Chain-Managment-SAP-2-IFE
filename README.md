@@ -1,95 +1,40 @@
+# DPS React Template
 
-# FastAPI Boilerplate
+To get this running, along with the provided Hugging Face example, you need to:
 
-This template provides a minimalistic FastAPI boilerplate to help your engineering teams quickly start building their own applications. The structure is kept simple and lightweight, allowing for easy customization and expansion.
+-   Duplicate `.env.template` file, and rename the duplicate to `.env`.
+-   Enter your Huggig Face API key in the foreseen place in the `.env` file
+-   in your terminal run: `npm install && npm run dev`
 
-## Project Structure
+It should be running now 🫣
 
-```plaintext
-fastapi_boilerplate/
-├── app/
-│   ├── main.py
-└── requirements.txt
-└── Dockerfile.txt
-└── compose.yaml
+# React + TypeScript + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+-   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+-   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+
+-   Configure the top-level `parserOptions` property like this:
+
+```js
+export default {
+	// other rules...
+	parserOptions: {
+		ecmaVersion: 'latest',
+		sourceType: 'module',
+		project: ['./tsconfig.json', './tsconfig.node.json'],
+		tsconfigRootDir: __dirname,
+	},
+};
 ```
 
-- **`app/main.py`**: The entry point of the FastAPI application.
-- **`requirements.txt`**: List of dependencies required to run the application.
-- **`Dockerfile`**: Script that contains instructions for building a Docker image and its configuration.
-- **`compose.yaml`** It is optional for your basic applications. It is a configuration file for Docker Compose that defines services, networks, and volumes for multi-container Docker applications, allowing them to be managed and deployed together.
-
-## Getting Started
-
-Follow these steps to get the application up and running:
-
-### 1. Clone the Repository
-
-```bash
-gh repo clone DigitalProductschool/dps-fast-template   
-cd fastapi-boilerplate
-```
-
-### 2. Install Dependencies
-
-Make sure you have Python installed, then install the required dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Run the Application
-
-Use Uvicorn to run the FastAPI application:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-- The `--reload` flag allows the server to restart automatically when code changes.
-
-### 4. Access the API
-
-- Open your web browser and go to: `http://127.0.0.1:8000/`
-- You should see a JSON response:
-
-  ```json
-  {"message": "Welcome to the minimal FastAPI application!"}
-  ```
-
-### 5. Explore the API Documentation
-
-FastAPI provides interactive API documentation out of the box:
-
-- **Swagger UI**: `http://127.0.0.1:8000/docs`
-- **ReDoc**: `http://127.0.0.1:8000/redoc`
-
-
-## Dockerization
-
-### Build the Docker image:
-
-```bash
-docker build -t fastapi-app .
-```
-
-### Run the Docker container:
-```bash
-docker run -d -p 8000:8000 fastapi-app
-```
-
-After running the commands, open your browser and go to http://localhost:8000 to see your FastAPI app running.
-
-
-## Customization
-
-This boilerplate is intentionally kept minimal. You can start adding your own routes, dependencies, and modules as needed. The structure is flexible, so feel free to expand and organize your application as it grows.
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
-## Contributing
-
-Contributions are welcome! If you have ideas or suggestions to improve this boilerplate, feel free to open an issue or submit a pull request.
-
+-   Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+-   Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+-   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
